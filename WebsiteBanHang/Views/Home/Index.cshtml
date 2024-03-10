@@ -1,0 +1,54 @@
+﻿@* @model IEnumerable<WebsiteBanHang.Models.Product> *@
+
+@{
+	ViewData["Title"] = "Trang Chủ";
+}
+
+
+<script>
+    // Chọn phần tử có ID là "danhSachSanPham"
+    const danhSachSanPhamElement = document.getElementById('danhSachSanPham');
+
+    // Hàm để tạo phần tử sản phẩm và thêm vào danh sách
+    function createProductCard(product) {
+        const productCardElement = document.createElement('div');
+        productCardElement.classList.add('col');
+
+        // Tạo phần tử card
+        productCardElement.innerHTML = `
+            <div class="card">
+                    <img src="https://picsum.photos/id/684/600/400" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">${product.name}</h5>
+                    <p class="card-text">${product.description}</p>
+                    <p class="card-text">Giá: ${product.price}</p>
+                    <a href="#" class="btn btn-primary">Mua Ngay</a>
+                </div>
+            </div>
+        `;
+
+        return productCardElement;
+    }
+
+    // Fetch dữ liệu từ API và xử lý
+    fetch('http://localhost:5100/api/products')
+        .then(response => response.json())
+        .then(products => {
+            // Xóa nội dung cũ trong danhSachSanPhamElement
+            danhSachSanPhamElement.innerHTML = '';
+
+            // Duyệt qua danh sách sản phẩm và thêm vào danhSachSanPhamElement
+            products.forEach(product => {
+                const productCardElement = createProductCard(product);
+                danhSachSanPhamElement.appendChild(productCardElement);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+</script>
+
+
+
+
+@section Scripts{
+
+}
